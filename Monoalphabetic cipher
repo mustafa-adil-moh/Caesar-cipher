@@ -1,0 +1,26 @@
+def frequency_analysis(ciphertext):
+    letters = [c for c in ciphertext.upper() if c.isalpha()]
+    freq = Counter(letters)
+    return [item[0] for item in freq.most_common()]
+
+def build_mapping(cipher_freq, ref_freq):
+    return dict(zip(cipher_freq, ref_freq))
+
+def decrypt(ciphertext, mapping):
+    decrypted = ''
+    for c in ciphertext:
+        if c.upper() in mapping:
+            new_char = mapping[c.upper()]
+            decrypted += new_char.lower() if c.islower() else new_char
+        else:
+            decrypted += c
+    return decrypted
+
+ref_freq_order = list("ETAOINSHRDLCUMWFGYPBVKJXQZ")
+ciphertext = "ZIT JXOEA WKGVF YGB PXDHL GCTK ZIT SQMN RGU"
+
+cipher_freq_order = frequency_analysis(ciphertext)
+mapping = build_mapping(cipher_freq_order, ref_freq_order)
+plaintext = decrypt(ciphertext, mapping)
+
+print(plaintext)
